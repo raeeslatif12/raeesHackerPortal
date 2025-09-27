@@ -17,7 +17,6 @@ export default function FunnyWeatherHackerWithCommands() {
   const typeRef = useRef(null);
   const queueRef = useRef([]);
 
-  // Pakistan cities
   const pakistanCities = [
     "Karachi",
     "Lahore",
@@ -115,13 +114,11 @@ export default function FunnyWeatherHackerWithCommands() {
     "[0xDE3] humorous bias matrix applied...",
   ];
 
-  // blinking cursor
   useEffect(() => {
     const t = setInterval(() => setShowCursor((s) => !s), 420);
     return () => clearInterval(t);
   }, []);
 
-  // scroll log auto
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [logLines]);
@@ -196,9 +193,7 @@ export default function FunnyWeatherHackerWithCommands() {
     setLogLines([]);
     setFunnyMessage("");
     setSeedEmoji(randomEmoji());
-
     queueRef.current = cmds.map((c, i) => ({ id: i + 1, text: `x>${c}()` }));
-
     for (let i = 0; i < queueRef.current.length; i++) {
       const item = queueRef.current[i];
       await simpleType(item.text, (txt) => {
@@ -214,11 +209,10 @@ export default function FunnyWeatherHackerWithCommands() {
       setLogLines((prev) => [...prev, `>> EXEC >> ${item.text} -> OK`]);
       setPercent(Math.floor(((i + 1) / queueRef.current.length) * 100));
     }
-
     setTimeout(() => {
       setModalOpen(true);
       setLoading(false);
-      const msg = "Go outside and see weather ";
+      const msg = "Go outside and see weather " + seedEmoji + " 😂";
       setFunnyMessage(msg);
       flashLog(">> QUEUE >> all commands executed.");
       setPercent(100);
@@ -281,21 +275,22 @@ export default function FunnyWeatherHackerWithCommands() {
   return (
     <>
       <NavBar />
-      <div className="relative min-h-screen bg-black text-emerald-200 p-6 flex items-center justify-center overflow-hidden">
-        <div className="max-w-5xl w-full space-y-6 z-10 px-4 sm:px-6">
-          <h1 className="text-2xl font-mono text-emerald-300">
+      <div className="relative min-h-screen bg-black text-emerald-200 p-4 sm:p-6 flex items-center justify-center overflow-hidden">
+        <div className="max-w-full sm:max-w-5xl w-full space-y-6 z-10 px-2 sm:px-4">
+          <h1 className="text-xl sm:text-2xl font-mono text-emerald-300 text-center sm:text-left">
             NEXUS • WEATHER HACK
           </h1>
 
-          <div className="bg-gray-900 border border-emerald-800 rounded-2xl p-4 md:p-6 relative">
-            <div className="flex gap-2 mb-4">
+          <div className="bg-gray-900 border border-emerald-800 rounded-2xl p-3 sm:p-6">
+            {/* Inputs */}
+            <div className="flex flex-col sm:flex-row gap-2 mb-4">
               <select
                 value={selectedCity}
                 onChange={(e) => {
                   setSelectedCity(e.target.value);
                   setCity("");
                 }}
-                className="bg-[#101828] font-mono px-3 py-2 rounded-lg border border-emerald-700/30 focus:outline-none"
+                className="bg-[#101828] font-mono px-3 py-2 rounded-lg border border-emerald-700/30 focus:outline-none flex-1"
               >
                 <option value="">— pick a Pakistan city —</option>
                 {pakistanCities.map((p) => (
@@ -304,6 +299,7 @@ export default function FunnyWeatherHackerWithCommands() {
                   </option>
                 ))}
               </select>
+
               <input
                 type="text"
                 value={city}
@@ -318,31 +314,34 @@ export default function FunnyWeatherHackerWithCommands() {
                 autoFocus
                 className="flex-1 bg-transparent font-mono px-3 py-2 rounded-lg border border-emerald-700/30 focus:outline-none"
               />
-              <button
-                onClick={runFromInput}
-                disabled={loading}
-                className="px-4 py-2 bg-emerald-500 text-black rounded-lg"
-              >
-                RUN
-              </button>
-              <button
-                onClick={() => setDeep((s) => !s)}
-                className={`px-3 py-2 rounded-lg ${
-                  deep ? "bg-violet-500" : "bg-emerald-900/20"
-                }`}
-              >
-                {deep ? "DEEP ON" : "DEEP OFF"}
-              </button>
-              <button
-                onClick={cancelHack}
-                className="px-3 py-2 bg-rose-700/90 text-white rounded-lg"
-              >
-                CANCEL
-              </button>
+
+              <div className="flex flex-wrap gap-2 sm:flex-row">
+                <button
+                  onClick={runFromInput}
+                  disabled={loading}
+                  className="px-4 py-2 bg-emerald-500 text-black rounded-lg flex-1 sm:flex-auto"
+                >
+                  RUN
+                </button>
+                <button
+                  onClick={() => setDeep((s) => !s)}
+                  className={`px-3 py-2 rounded-lg flex-1 sm:flex-auto ${
+                    deep ? "bg-violet-500" : "bg-emerald-900/20"
+                  }`}
+                >
+                  {deep ? "DEEP ON" : "DEEP OFF"}
+                </button>
+                <button
+                  onClick={cancelHack}
+                  className="px-3 py-2 bg-rose-700/90 text-white rounded-lg flex-1 sm:flex-auto"
+                >
+                  CANCEL
+                </button>
+              </div>
             </div>
 
             {/* Terminal + Progress */}
-            <div className="relative flex flex-col bg-black border border-emerald-800 rounded-lg p-2 h-72 font-mono text-emerald-300">
+            <div className="relative flex flex-col bg-black border border-emerald-800 rounded-lg p-2 h-60 sm:h-72 font-mono text-emerald-300">
               <div ref={logRef} className="flex-1 overflow-y-auto px-2">
                 {logLines.length === 0 ? (
                   <div className="text-emerald-400/60">
@@ -371,17 +370,17 @@ export default function FunnyWeatherHackerWithCommands() {
             </div>
 
             {/* Buttons */}
-            <div className="mt-3 flex justify-between text-xs">
-              <div className="flex gap-2">
+            <div className="mt-3 flex flex-col sm:flex-row justify-between text-xs gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <button
                   onClick={copyLogs}
-                  className="px-3 py-1 bg-emerald-700/30 rounded-md font-mono"
+                  className="px-3 py-1 bg-emerald-700/30 rounded-md font-mono flex-1 sm:flex-auto"
                 >
                   COPY LOGS
                 </button>
                 <button
                   onClick={downloadLogs}
-                  className="px-3 py-1 bg-emerald-700/30 rounded-md font-mono"
+                  className="px-3 py-1 bg-emerald-700/30 rounded-md font-mono flex-1 sm:flex-auto"
                 >
                   SAVE LOGS
                 </button>
@@ -393,19 +392,19 @@ export default function FunnyWeatherHackerWithCommands() {
 
         {/* Modal */}
         {modalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-0">
             <div
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={() => setModalOpen(false)}
             />
-            <div className="relative max-w-lg w-full bg-gradient-to-b from-gray-900 to-gray-800 border border-emerald-700 rounded-2xl p-6 shadow-2xl">
+            <div className="relative w-full sm:max-w-lg bg-gradient-to-b from-gray-900 to-gray-800 border border-emerald-700 rounded-2xl p-6 shadow-2xl">
               <div className="text-xs text-emerald-200 font-mono">
                 NEXUS • WEATHER PAYLOAD
               </div>
-              <div className="mt-4 flex items-center gap-4">
+              <div className="mt-4 flex flex-col sm:flex-row items-center gap-4">
                 <div className="text-6xl animate-[pop_600ms]">{seedEmoji}</div>
-                <div>
-                  <div className="text-3xl font-mono font-bold text-emerald-300">
+                <div className="text-center sm:text-left">
+                  <div className="text-2xl sm:text-3xl font-mono font-bold text-emerald-300">
                     {funnyMessage}
                   </div>
                   <div className="mt-2 text-sm text-emerald-200/70">
@@ -416,14 +415,14 @@ export default function FunnyWeatherHackerWithCommands() {
                   </div>
                 </div>
               </div>
-              <div className="mt-6 flex gap-3">
+              <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => {
                     setModalOpen(false);
                     setDeep(true);
                     startHack();
                   }}
-                  className="px-4 py-2 bg-violet-500 text-black rounded-lg"
+                  className="px-4 py-2 bg-violet-500 text-black rounded-lg flex-1"
                 >
                   DEEP AGAIN
                 </button>
@@ -432,13 +431,13 @@ export default function FunnyWeatherHackerWithCommands() {
                     navigator.clipboard?.writeText(funnyMessage);
                     flashLog(">> OP >> message copied.");
                   }}
-                  className="px-3 py-2 bg-emerald-600 text-black rounded-lg"
+                  className="px-3 py-2 bg-emerald-600 text-black rounded-lg flex-1"
                 >
                   COPY MESSAGE
                 </button>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="px-3 py-2 bg-emerald-900/20 text-emerald-200 rounded-lg"
+                  className="px-3 py-2 bg-emerald-900/20 text-emerald-200 rounded-lg flex-1"
                 >
                   CLOSE
                 </button>
