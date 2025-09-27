@@ -36,6 +36,14 @@ export default function HackingHome() {
       component: FunnyCalculator,
       tags: ["calculator", "react", "keyboard"],
     },
+    {
+      id: "funny-Weather",
+      title: "FunnyWeather",
+      description: "Fun calculator with animations and keyboard shortcuts.",
+      route: "/funny-weather",
+      component: FunnyCalculator,
+      tags: ["calculator", "react", "keyboard"],
+    },
   ];
 
   // Initialize results and focus
