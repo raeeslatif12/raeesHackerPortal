@@ -212,7 +212,7 @@ export default function FunnyWeatherHackerWithCommands() {
     setTimeout(() => {
       setModalOpen(true);
       setLoading(false);
-      const msg = "Go outside and see weather ";
+      const msg = "Go outside and see weather";
       setFunnyMessage(msg);
       flashLog(">> QUEUE >> all commands executed.");
       setPercent(100);
@@ -244,7 +244,7 @@ export default function FunnyWeatherHackerWithCommands() {
     }
 
     setTimeout(() => {
-      const msg = "Go outside and see weather " + seedEmoji + " 😂";
+      const msg = "Go outside and see weather ";
       setFunnyMessage(msg);
       setModalOpen(true);
       setLoading(false);
